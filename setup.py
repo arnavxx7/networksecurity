@@ -38,3 +38,6 @@ setup(
     install_requires=get_requirements()  # When packages are being built it makes sure that the requirements are installed
 )
 
+#-e . Refers to setup.py file and runs that file as well, builds the python project as a package with all these requirements pre-installed
+# Builds the python project as well as all folders containing __init__.py file as package
+# Can be used when the entire project is completed and can be built as a package
