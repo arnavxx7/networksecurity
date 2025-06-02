@@ -20,7 +20,7 @@ def get_requirements()->List[str]:
             for line in lines:
                 #strip every line of any whitespaces
                 requirement = line.strip()
-                if requirement and requirement!="-e .":
+                if requirement and "-e ." not in requirement:
                     requirement_list.append(requirement)  # Append the requirement to the list
     
     except FileNotFoundError:
