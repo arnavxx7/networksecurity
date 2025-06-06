@@ -1,6 +1,7 @@
 from networksecurity.components.data_ingestion import DataIngestion
 from networksecurity.components.data_validation import DataValidation
-from networksecurity.entity.config_entity import DataIngestionConfig, DataValidationConfig
+from networksecurity.components.data_transformation import DataTransformation
+from networksecurity.entity.config_entity import DataIngestionConfig, DataValidationConfig, DataTransformationConfig
 from networksecurity.entity.config_entity import TrainingPipelineConfig
 from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.logging.logger import logging
@@ -11,6 +12,7 @@ if __name__=="__main__":
         training_pipeline_config = TrainingPipelineConfig()
         data_ingestion_config = DataIngestionConfig(training_pipeline_config)
         data_validation_config = DataValidationConfig(training_pipeline_config)
+        data_transformation_config = DataTransformationConfig(training_pipeline_config)
         logging.info("Initiate data ingestion")
         data_ingestion = DataIngestion(data_ingestion_config)
         ingestion_artifact = data_ingestion.initiate_data_ingestion()
@@ -26,5 +28,11 @@ if __name__=="__main__":
             print("Data drift has ocurred")
         print(validation_artifact.drift_report_file_path)
         logging.info("Data Validation Completed")
+        logging.info("Initiate Data Transformation")
+        data_transformation = DataTransformation(validation_artifact, data_transformation_config)
+        transformation_artifact = data_transformation.initiate_data_transformation()
+        print(transformation_artifact.transformed_train_file_path)
+        print(transformation_artifact.transformed_object_file_path)
+        logging.info("Data Transformation Completed")
     except Exception as e:
         raise NetworkSecurityException(e, sys)

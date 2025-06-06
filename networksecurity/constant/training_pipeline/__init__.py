@@ -35,3 +35,20 @@ DATA_VALIDATION_VALID_DATA_DIR: str = "validated"
 DATA_VALIDATION_INVALID_DATA_DIR: str = "invalid"
 DATA_VALIDATION_DRIFT_REPORT_DIR: str = "drift_report"
 DATA_VALIDATION_DRIFT_REPORT_FILE_PATH: str = "report.yaml"
+
+
+'''
+Data Transformation constants starts with DATA_TRANSFORMATION
+'''
+
+DATA_TRANSFORMATION_DIR_NAME: str = "data_transformation"
+DATA_TRANSFORMATION_TRANSFORMED_DATA_DIR: str = "transformed_data" 
+DATA_TRANSFORMATION_TRANSFORMED_OBJECT_DIR: str = "transformed_object"
+PREPROCESSING_OBJECT_FILE_NAME = "preprocessing.pkl"
+
+#knn imputer to replace nan values
+DATA_TRANSFORMATION_IMPUTER_PARAMS = {
+    "missing_values": np.nan,
+    "n_neighbors": 3,
+    "weights": "uniform"
+} 
