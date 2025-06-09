@@ -1,4 +1,6 @@
 import os, sys
+
+import mlflow.sklearn
 from networksecurity.logging.logger import logging
 from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.utils.main_utils.utils import load_numpy_array, load_object, save_object, evaluate_model
@@ -14,6 +16,7 @@ from sklearn.ensemble import (
     GradientBoostingClassifier,
     AdaBoostClassifier
 )
+import mlflow
 
 
 
@@ -25,7 +28,20 @@ class ModelTrainer:
             self.data_transformation_artifact = data_transformation_artifact
         except Exception as e:
             raise NetworkSecurityException(e, sys)
+        
+    def track_mlflow(self, best_model, classification_metrics):
+        try:
+            with mlflow.start_run():
+                f1_score = classification_metrics.f1_score
+                precision_score = classification_metrics.precision_score
+                recall_score = classification_metrics.recall_score
 
+                mlflow.log_metric("f1_score", f1_score)
+                mlflow.log_metric("precision_score", precision_score)
+                mlflow.log_metric("recall score", recall_score)
+                mlflow.sklearn.log_model(sk_model=best_model, artifact_path="model")
+        except Exception as e:
+            raise NetworkSecurityException(e, sys)
 
     def train_model(self, x_train, y_train, x_test, y_test):
         try:
@@ -55,8 +71,9 @@ class ModelTrainer:
             y_test_pred = best_model.predict(x_test)
             train_metrics = get_classification_metrics(actual=y_train, pred=y_train_pred)
             test_metrics = get_classification_metrics(actual=y_test, pred=y_test_pred)
-            #Track ml flow
-
+            #Track the experiments with ml flow
+            self.track_mlflow(best_model, train_metrics)
+            self.track_mlflow(best_model, test_metrics)
             # Load preprocessor pipeline to give to network model class
             preprocessor_obj = load_object(self.data_transformation_artifact.transformed_object_file_path)
             # make directory for saving model
