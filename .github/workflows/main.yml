@@ -30,7 +30,7 @@ jobs:  # <-- this was 'job' before (incorrect)
         uses: actions/checkout@v3
 
       - name: Install Utilities
-        runs: |
+        run: |
           sudo apt-get update
           sudo apt-get install -y jq unzip
       
@@ -44,4 +44,3 @@ jobs:  # <-- this was 'job' before (incorrect)
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-        
