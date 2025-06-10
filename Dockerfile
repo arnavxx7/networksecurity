@@ -24,5 +24,6 @@ RUN apt update -y && \
 # It's generally best practice to install `awscli` via pip in a Python image.
 RUN pip install -r requirements.txt
 
+EXPOSE 8080
 # Command to run when the container starts
 CMD ["python3", "app.py"]
