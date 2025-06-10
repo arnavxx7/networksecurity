@@ -18,7 +18,7 @@ RUN apt update -y && \
     apt install -y --no-install-recommends ca-certificates curl && \
     rm -rf /var/lib/apt/lists/*
 
-RUN apt install awscli
+
 # Install Python dependencies from requirements.txt
 # This includes `awscli` if it's listed in your requirements.txt.
 # It's generally best practice to install `awscli` via pip in a Python image.
