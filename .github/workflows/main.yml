@@ -46,6 +46,7 @@ jobs:  # <-- this was 'job' before (incorrect)
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build, tag, and push image to Amazon ECR
+        id: build-image
         env:
           ECR_REPOSITORY_URI: ${{ secrets.AWS_ECR_LOGIN_URI }}
           ECR_REPOSITORY_NAME: ${{ secrets.ECR_REPOSITORY_NAME }}
