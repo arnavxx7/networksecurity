@@ -17,6 +17,8 @@ from sklearn.ensemble import (
     AdaBoostClassifier
 )
 import mlflow
+import dagshub
+dagshub.init(repo_owner='arnavxx7', repo_name='networksecurity', mlflow=True)
 
 
 
@@ -83,6 +85,9 @@ class ModelTrainer:
             network_model = NetworkModel(preprocessor=preprocessor_obj, model=best_model)
             
             save_object(file_path=self.model_trainer_config.trained_model_file_path, obj=network_model)
+
+            # save best model to final model folder
+            save_object(file_path="final_model/model.pkl", obj=best_model)
 
             # Model Trainer Artifact
             model_trainer_artifact = ModelTrainerArtifact(
